@@ -1,3 +1,10 @@
+__author__ = 'Sophie Reynolds'
+import pandas as pd
+import math
+import random
+
+
+
 begnames = ['ACTIUM', 'ATHENAE', 'AULIS', 'ALEXANDRIA', 'BEROLINUM', 'BRUNDISIUM', 'CANNAE', 'CARTHAGO', 'DELPHI', 'GENAVA', 'HERCULANEUM',
             'LONDINIUM', 'LUTETIA', 'OLYMPIA', 'OSTIA', 'POMPEII', 'ROMA', 'SPARTA','STABIAE', 'SYRACUSAE','THEBES','TIRYNS',
             'MYCENAE','ARGOS','CUMAE']
@@ -19,13 +26,19 @@ totalrooms = ['room1', 'room2', 'room3', 'room4', 'room5', 'room6', 'room7', 'ro
               'room21', 'room22', 'room23', 'room24', 'room25', 'room26', 'room27', 'room28', 'room29', 'room30']
 level_rooms = dict()
 
-__author__ = 'Sophie Reynolds'
-import pandas as pd
-import math
-import random
-from itertools import permutations
+rostra = dict()
+rostra[12] = ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], [11, 8, 5, 2, 10, 7, 4, 1, 9, 6, 3, 0], [3, 7, 10, 6, 9, 0, 2, 5, 11, 1, 4, 8])
+rostra[9] = ([0, 1, 2, 3, 4, 5, 6, 7, 8], [0, 3, 6, 2, 5, 8, 1, 4, 7], [1, 5, 6, 2, 3, 7, 0, 4, 8])
+rostra[18] = ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], [1, 3, 17, 2, 4, 6, 5, 7, 9, 8, 10, 12, 11, 13, 15, 0, 14, 16],
+              [4, 9, 17, 5, 10, 15, 0, 8, 13, 2, 7, 12, 3, 11, 16, 1, 6, 14])
 
-htmlwrite = ""
+outputtext = dict()
+outputtext['beg'] = ""
+outputtext['int'] = ""
+outputtext['adv'] = ""
+
+
+
 
 if __name__ == "__main__":
     def chunks(l, n):
@@ -141,41 +154,49 @@ if __name__ == "__main__":
                     team = 0
 
         teams[type] = teamlist
-        htmlwrite += "<h1>" + type + " teams </h1>"
+        outputtext[type] += "<h1>" + type + " teams </h1>"
         table = "<table> <tr>"
         counter = 0
         for i in range(len(teamlist)):
             table += "<td> <b>" + teamlist[i].name + "</b> <br>" + teamlist[i].toStringNoSchool() + "</td>"
             counter+=1
-            if counter == 8:
+            if counter == 3:
                 table += "</tr><tr>"
                 counter = 0
         table += "</table>"
 
-        htmlwrite += table
+        outputtext[type] += table
+        outputtext[type] += "<br> <br>"
 
-
-    #Teams are made -- now for the rooming assignments
-
-"""
     for type in ['beg', 'int', 'adv']:
-        teamList = teams[type]
-        teamNameList = []
-        for team in teamList:
-            teamNameList.append(team.name)
+        print(type)
+        outputtext[type] += "<h1>" + type + " rooms </h1> <br>"
+        teamlist = teams[type]
+        rooms = level_rooms[type]
+        try:
+            roster = rostra[len(teamlist)]
+        except:
+            outputtext[type] += "This number of teams does not have a set rotation, sorry!"
+            print("The number of teams does not have a rotation")
+            break
+        table = "<table> <tr> <td> Round </td>"
+        for roomnum in range(0, len(rooms)):
+            table += "<td>" + rooms[roomnum] + "</td>"
+        table += "</tr>"
         for round in [1, 2, 3]:
-            print(type)
+            table += "<tr> <td>" + str(round) + "</td>"
             print("Round " + str(round))
-            print(teamNameList)
-            random.shuffle(teamNameList)
-            print(teamNameList)
-            groups = list(chunks(teamNameList, 3))  #this works OK, but could come up with better math way
-            for roomnum in range (0, len(level_rooms[type])):
-                print(level_rooms[type][roomnum])
-                print(groups[roomnum])
-
-        #print(list(permutations(teamNameList)))
-        """
+            groups = list(chunks(roster[round-1], 3))
+            print(groups)
+            for roomnum in range (0, len(rooms)) :
+                print(rooms[roomnum])
+                teamNums = groups[roomnum]
+                print(teamlist[teamNums[0]].name)
+                print(teamlist[teamNums[1]].name)
+                print(teamlist[teamNums[2]].name)
+                table += "<td>" + teamlist[teamNums[0]].name + "<br>" + teamlist[teamNums[1]].name + "<br>" + teamlist[teamNums[2]].name + "</td>"
+            table += "</tr>"
+        outputtext[type] += table
 
 
 
@@ -189,8 +210,8 @@ table, th, td {
   border-collapse: collapse;
   padding: 15px;
 }
-td {
-  width:12.5%;
+table{
+width: 50%;
 }
 </style>
 </head>
@@ -199,7 +220,8 @@ td {
     html_end = """</body>
 
 </html>"""
-
-    myfile = open("teams.html", "w")
-    myfile.write(html_head + htmlwrite + html_end)
-    myfile.close()
+    for type in ['beg', 'int', 'adv']:
+        filename = type + ".html"
+        myfile = open(filename, "w")
+        myfile.write(html_head + outputtext[type] + html_end)
+        myfile.close()
