@@ -16,4 +16,5 @@ The program then assigns the teams to rooms for three rounds, if there is a temp
 # Notes
 * If the code seems stuck or is not running, cancel and try again -- often that will help.
 * While the output is in HTML, if you want to be able to edit it, you can convert it to a word doc either through copy and paste or through an online converter.
+  * If you put it into a word doc, the spacing may be a bit off. Try changing font size, switching to landscape orientation, changing table layout, etc to be able to see it correctly
 * If the number of teams does not have a specific template, you will not get rooms assigned.
