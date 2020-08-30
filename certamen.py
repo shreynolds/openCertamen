@@ -37,8 +37,7 @@ outputtext['beg'] = ""
 outputtext['int'] = ""
 outputtext['adv'] = ""
 
-
-
+alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
 if __name__ == "__main__":
     def chunks(l, n):
@@ -134,7 +133,10 @@ if __name__ == "__main__":
         random.shuffle(names[type])
         for i in range(num_teams):
             name = names[type][i]
-            teamlist.append(Team(name))
+            try:
+                teamlist.append(Team(alphabet[i] + ":&nbsp" + name))
+            except IndexError:
+                teamlist.append(Team(name))
 
         for person in peoplelist:
             start_team = random.randint(0, num_teams - 1)
@@ -177,7 +179,6 @@ if __name__ == "__main__":
             roster = rostra[len(teamlist)]
         except:
             outputtext[type] += "This number of teams does not have a set rotation, sorry!"
-            print("The number of teams does not have a rotation")
             break
         table = "<table> <tr> <td> Round </td>"
         for roomnum in range(0, len(rooms)):
@@ -187,13 +188,8 @@ if __name__ == "__main__":
             table += "<tr> <td>" + str(round) + "</td>"
             print("Round " + str(round))
             groups = list(chunks(roster[round-1], 3))
-            print(groups)
             for roomnum in range (0, len(rooms)) :
-                print(rooms[roomnum])
                 teamNums = groups[roomnum]
-                print(teamlist[teamNums[0]].name)
-                print(teamlist[teamNums[1]].name)
-                print(teamlist[teamNums[2]].name)
                 table += "<td>" + teamlist[teamNums[0]].name + "<br>" + teamlist[teamNums[1]].name + "<br>" + teamlist[teamNums[2]].name + "</td>"
             table += "</tr>"
         outputtext[type] += table
