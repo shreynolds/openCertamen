@@ -21,8 +21,9 @@ The program then assigns the teams to rooms for three rounds, if there is a temp
 
 # Notes for Magis
 When it says 'go to the directory that the code is in', open terminal and type
-cd Desktop (enter)
-cd openCertamen (enter)
-and then you are in the directory
+`cd Desktop 
+cd openCertamen 
+`
+and then you are in the directory. Make sure you hit return after both of those commands.
 
 If you want to update the code, go to the directory and type `git pull` and it will be updated if the code has been updated.
