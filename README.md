@@ -18,3 +18,11 @@ The program then assigns the teams to rooms for three rounds, if there is a temp
 * While the output is in HTML, if you want to be able to edit it, you can convert it to a word doc either through copy and paste or through an online converter.
   * If you put it into a word doc, the spacing may be a bit off. Try changing font size, switching to landscape orientation, changing table layout, etc to be able to see it correctly
 * If the number of teams does not have a specific template, you will not get rooms assigned.
+
+# Notes for Magis
+When it says 'go to the directory that the code is in', open terminal and type
+cd Desktop (enter)
+cd openCertamen (enter)
+and then you are in the directory
+
+If you want to update the code, go to the directory and type `git pull` and it will be updated if the code has been updated.
